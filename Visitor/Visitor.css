@@ -1,0 +1,91 @@
+.card-container {
+  display: flex;
+  background-color: #e0ffff;
+  flex-wrap: wrap;
+  height: calc(100% - 150px);
+  width: 100%;
+  justify-content: space-evenly;
+  align-items: center;
+  padding: 20px;
+}
+
+.card-container .card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 220px;
+    height: 140px;
+    font-size: x-large;
+    font-weight: 500;
+    text-align: center;
+    border: none;
+    border-radius: 10px;
+    text-decoration: none;
+    color: #fff;
+    transition: all 0.3s;
+    margin: 10px;
+    overflow: hidden;
+}
+
+.card-container .card:hover {
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  transform: translateY(-5px);
+}
+
+.card-container .card:nth-child(1) {
+  background: linear-gradient(to right, #8aff95 0%, rgb(19, 241, 38) 100%);
+  border: 2px solid rgb(4, 230, 4);
+}
+
+.card-container .card:nth-child(2) {
+  background: linear-gradient(to right, #88caf8 0%, #1786ee 100%);
+  border: 2px solid rgb(5, 118, 248);
+}
+
+.card-container .card:nth-child(3) {
+  background: linear-gradient(to right, rgb(253, 151, 125) 0%, rgb(243, 67, 13) 100%);
+  border: 2px solid rgb(248, 5, 5);
+}
+
+.card-container .card:nth-child(3):hover{
+  transform:none;
+}
+
+.card-container .card:nth-child(4) {
+  background: linear-gradient(to right, #fffd86 0%, rgb(229, 255, 0) 100%);
+  color: rgb(51, 133, 93);
+  border: 2px solid rgb(244, 248, 5);
+}
+
+.card-container .card:nth-child(4):hover{
+  transform:none;
+}
+
+.card-container .card a {
+  font-size: 2.5em;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.card-container .card p{
+  line-height: 2.5rem;
+  margin-bottom: 0.1rem;
+}
+
+.nav-links .nav-link a[href*="../Visitor/Visitor.php"]{
+  border: white 2px solid;
+  border-radius: 5px;
+}
+
+.report-count{
+  margin: 0;
+  padding: 0;
+  font-size: 3rem;
+  font-weight: 700;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  /* font-style: oblique; */
+  font-variant-numeric: oldstyle-nums;
+}
