@@ -31,6 +31,7 @@ if ($stmt->num_rows == 1) {
   $_SESSION['fullname'] = $fullname;
   $_SESSION['username'] = $username;
   $_SESSION['role'] = $role;
+  $_SESSION['userId'] = $userId;
 
   if ($status == 'active') {
     // Redirect based on user's role

@@ -5,8 +5,8 @@ if (!isset($_SESSION['role'])) {
   header("Location: ../index.php");
   exit();
 }
-$department=$_SESSION['department'];
-$role=$_SESSION['role'];
+$department = $_SESSION['department'];
+$role = $_SESSION['role'];
 
 include '../database.php';
 ?>
@@ -38,6 +38,16 @@ include '../database.php';
         <i class='bx bx-menu sidebarBtn'></i>
         <span class="dashboard">Dashboard</span>
       </div>
+      <div class="avt dropdown">
+        <button class="dropdown-toggle" id="profile-dropdown-toggle">
+          <img src="../profile.png" alt="Profile Avatar" class="profile-avatar">
+        </button>
+        <ul class="dropdown-menu" id="profile-dropdown">
+          <li><a href="../profile/profile.php?id=<?php echo $_SESSION['userId']; ?>">Profile</a></li>
+
+          <li><a href="../logout.php">Logout</a></li>
+        </ul>
+      </div>
     </nav>
     <!-- Navbar ends Here -->
     <div class="home-content">
@@ -66,8 +76,8 @@ include '../database.php';
           </h1>
           <div class="heading">
             <h1><?php if ($_SESSION['role'] == 'hod' || $_SESSION['role'] == 'classIncharge') {
-              echo $department." ";
-            }?>Dashboard</h1>
+              echo $department . " ";
+            } ?>Dashboard</h1>
           </div>
 
           <div class="dashboard-container">
@@ -82,7 +92,7 @@ include '../database.php';
                         <?php
                         if ($_SESSION['role'] == 'hod' || $_SESSION['role'] == 'classIncharge') {
                           $sql = "SELECT COUNT(*) as count FROM inqury_data WHERE date=CURRENT_DATE AND status='Late' AND dprt='$department';";
-                        }else{
+                        } else {
                           $sql = "SELECT COUNT(*) as count FROM inqury_data WHERE date=CURRENT_DATE AND status='Late';";
                         }
                         //select only all student number whose status is late

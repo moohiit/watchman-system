@@ -17,7 +17,7 @@ include '../database.php';
   <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
   <link rel="stylesheet" type="text/css"
     href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-  <link rel="stylesheet" href="success.css">
+  <link rel="stylesheet" href="profile.css">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Watchman System</title>
   <link rel="stylesheet" href="../styles.css">
@@ -40,7 +40,6 @@ include '../database.php';
         </button>
         <ul class="dropdown-menu" id="profile-dropdown">
           <li><a href="../profile/profile.php?id=<?php echo $_SESSION['userId']; ?>">Profile</a></li>
-
           <li><a href="../logout.php">Logout</a></li>
         </ul>
       </div>
@@ -49,20 +48,7 @@ include '../database.php';
     <div class="home-content">
       <!-- Main Content Goes Here   -->
       <div class="main-content">
-        <div class="success-message">
-          <h2>
-            <?php
-            if (isset($_SESSION['success'])) {
-              echo $_SESSION['success'];
-              unset($_SESSION['success']);
-            } else {
-              echo 'Student Added Successfully';
-            }
-            ?>
-          </h2>
-          <a href="./addStudent.php" class="back-button">Add More</a>
-          <a href="../dashboard/dashboard.php" class="back-button">Go to Home</a>
-        </div>
+        
       </div>
       <!-- Main Content Ends Here -->
     </div>

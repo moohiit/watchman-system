@@ -35,6 +35,15 @@ include '../database.php';
         <i class='bx bx-menu sidebarBtn'></i>
         <span class="dashboard">Visitor Section</span>
       </div>
+      <div class="avt dropdown">
+        <button class="dropdown-toggle" id="profile-dropdown-toggle">
+            <img src="../profile.png" alt="Profile Avatar" class="profile-avatar">
+        </button>
+        <ul class="dropdown-menu" id="profile-dropdown">
+          <li><a href="../profile/profile.php?id=<?php echo $_SESSION['userId']; ?>">Profile</a></li>
+          <li><a href="../logout.php">Logout</a></li>
+        </ul>
+      </div>
     </nav>
     <!-- Navbar ends Here -->
     <div class="home-content">

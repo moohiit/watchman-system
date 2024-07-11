@@ -297,3 +297,44 @@ footer p {
     width: calc(100% - 60px);
   }
 }
+
+  .dropdown {
+    position: relative;
+    display: inline-block;
+  }
+
+  .dropdown-toggle {
+    color:#f5f5f5;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 8px 20px;
+  }
+
+  .dropdown-menu {
+    display: none;
+    position: absolute;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1;
+    list-style-type: none;
+    padding: 0;
+  }
+
+  .dropdown-menu li {
+    padding: 8px 16px;
+  }
+
+  .dropdown-menu li:hover {
+    background-color: #f2f2f2;
+  }
+
+  .dropdown:hover .dropdown-menu {
+    display: block;
+  }
+
+  .profile-avatar {
+    width: 35px; /* Adjust according to your design */
+    height: 35px; /* Adjust according to your design */
+    border-radius: 50%; /* Makes the image round */
+  }

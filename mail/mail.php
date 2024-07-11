@@ -33,38 +33,47 @@ if (!isset($_SESSION['role'])) {
         <i class='bx bx-menu sidebarBtn'></i>
         <span class="dashboard">Send Mail</span>
       </div>
+      <div class="avt dropdown">
+        <button class="dropdown-toggle" id="profile-dropdown-toggle">
+          <img src="../profile.png" alt="Profile Avatar" class="profile-avatar">
+        </button>
+        <ul class="dropdown-menu" id="profile-dropdown">
+          <li><a href="../profile/profile.php?id=<?php echo $_SESSION['userId']; ?>">Profile</a></li>
+          <li><a href="../logout.php">Logout</a></li>
+        </ul>
+      </div>
     </nav>
     <!-- Navbar ends Here -->
     <div class="home-content">
       <!-- Main Content Goes Here   -->
       <div class="main-content">
-          <div class="form-container">
-            <h3>Send Today's Report</h3>
-            <h6>To</h6>
-            <h4>Head of Department</h4>
-            <form method="post" id="mailForm" action="deptMail.php" class="form">
-              <div class="form-row">
-                <input type="submit" value="Send Mail" name="send_mail">
-              </div>
-            </form>
-            <div id="loader" style="display: none; ">
-              <img src="loader.gif" style="width: 100px; height: 100px;" alt="Loader">
-              <p>Sending Mail...</p>
+        <div class="form-container">
+          <h3>Send Today's Report</h3>
+          <h6>To</h6>
+          <h4>Head of Department</h4>
+          <form method="post" id="mailForm" action="deptMail.php" class="form">
+            <div class="form-row">
+              <input type="submit" value="Send Mail" name="send_mail">
             </div>
-            <div id="statusMessages">
-              <?php
-              if (isset($_SESSION['mail_status'])) {
-                echo '<div class="alert alert-success"><p>' . $_SESSION['mail_status'] . '</p></div>';
-                unset($_SESSION['mail_status']);
-              }
-              if (isset($_SESSION['mail_error'])) {
-                echo '<div class="alert alert-error"><p>' . $_SESSION['mail_error'] . '</p></div>';
-                unset($_SESSION['mail_error']);
-              }
-              ?>
-            </div>
-
+          </form>
+          <div id="loader" style="display: none; ">
+            <img src="loader.gif" style="width: 100px; height: 100px;" alt="Loader">
+            <p>Sending Mail...</p>
           </div>
+          <div id="statusMessages">
+            <?php
+            if (isset($_SESSION['mail_status'])) {
+              echo '<div class="alert alert-success"><p>' . $_SESSION['mail_status'] . '</p></div>';
+              unset($_SESSION['mail_status']);
+            }
+            if (isset($_SESSION['mail_error'])) {
+              echo '<div class="alert alert-error"><p>' . $_SESSION['mail_error'] . '</p></div>';
+              unset($_SESSION['mail_error']);
+            }
+            ?>
+          </div>
+
+        </div>
       </div>
       <!-- Main Content Ends Here -->
     </div>
