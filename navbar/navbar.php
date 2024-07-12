@@ -2,8 +2,8 @@
 include '../database.php';
 $userId = $_SESSION['userId'];
 $sql = "SELECT id, fullname, username AS email, mobile, password, role, department, status, photo_url FROM users WHERE id = $userId";
-$result = $conn->query($sql);
-$user = $result->fetch_assoc();
+$photo_result = $conn->query($sql);
+$user = $photo_result->fetch_assoc();
 $photo_url = isset($user['photo_url']) && !empty($user['photo_url']) ? $user['photo_url'] : '../profile.png';
 ?>
 

@@ -29,7 +29,7 @@ $result = $conn->query($sql);
 <body>
   <?php include "../sidebar/sidebar.php" ?>
   <section class="home-section">
-    <?php include "../navbar/navbar.php" ?>
+    <?php include "../navbar/navbar.php"; ?>
     <div class="home-content">
       <div class="main-content">
         <div class="form-container">
