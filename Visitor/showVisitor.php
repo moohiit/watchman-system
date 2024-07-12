@@ -79,9 +79,11 @@ if (!isset($_SESSION['role'])) {
                 <th>Name</th>
                 <th>Contact No.</th>
                 <th>Reason</th>
+                <th>Visited To</th>
                 <th>Entry Time</th>
                 <th>Exit Time</th>
                 <th>Date</th>
+                <th>Location</th>
                 <th>Action</th>
               </tr>
             </thead>
@@ -102,9 +104,11 @@ if (!isset($_SESSION['role'])) {
                   <td><?php echo $row["name"] ?></td>
                   <td><?php echo $row["mobile"] ?></td>
                   <td><?php echo $row["reason"] ?></td>
+                  <td><?php echo $row["visit_whom"] ?></td>
                   <td><?php echo $row["entry_time"] ?></td>
                   <td><?php echo $row["exit_time"] ?></td>
                   <td><?php echo $row["date"] ?></td>
+                  <td><?php echo $row["location"] ?></td>
                   <td>
                     <?php if ($row["status"] == "visiting") { ?>
                       <form method="post" onsubmit="return confirmExit();">

@@ -152,7 +152,7 @@ $stmt->close();
             ?>
             <a class="card" href="../manageUsers/manageUsers.php">
               <p>Manage Users</p>
-              <p class="user-count">Active Users:
+              <p style="line-height: 1rem;" class="user-count">Active Users:
                 <?php
                 //select only users who are active
                 $sql = "SELECT COUNT(*) as count FROM users WHERE status='active'";
@@ -161,7 +161,7 @@ $stmt->close();
                 echo $row["count"];
                 ?>
               </p>
-              <p class="user-count">Inactive Users:
+              <p style="line-height: 1rem;" class="user-count">Inactive Users:
                 <?php
                 //select only users who are inactive
                 $sql = "SELECT COUNT(*) as count FROM users WHERE status='inactive'";

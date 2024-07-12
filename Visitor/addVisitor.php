@@ -4,6 +4,11 @@ if (!isset($_SESSION['role'])) {
   header("Location: ../index.php");
   exit();
 }
+
+include '../database.php';
+
+$sql = "SELECT fullname, role, mobile FROM users";
+$result = $conn->query($sql);
 ?>
 <!DOCTYPE html>
 <html>
@@ -11,7 +16,6 @@ if (!isset($_SESSION['role'])) {
 <head>
   <meta charset="UTF-8">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
   <!-- Boxicons CDN Link -->
   <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
   <link rel="stylesheet" type="text/css"
@@ -32,7 +36,7 @@ if (!isset($_SESSION['role'])) {
       </div>
       <div class="avt dropdown">
         <button class="dropdown-toggle" id="profile-dropdown-toggle">
-            <img src="../profile.png" alt="Profile Avatar" class="profile-avatar">
+          <img src="../profile.png" alt="Profile Avatar" class="profile-avatar">
         </button>
         <ul class="dropdown-menu" id="profile-dropdown">
           <li><a href="../profile/profile.php?id=<?php echo $_SESSION['userId']; ?>">Profile</a></li>
@@ -43,7 +47,8 @@ if (!isset($_SESSION['role'])) {
     <div class="home-content">
       <div class="main-content">
         <div class="form-container">
-          <form action="add.php" class="form" method="post" enctype="multipart/form-data">
+          <form action="whatsappmessage.php" class="form" method="post" enctype="multipart/form-data"
+            onsubmit="setWhomMobile()">
             <h2 class="form-heading">Visitor Details</h2>
             <div class="form-row">
               <label for="name">Name : </label>
@@ -72,9 +77,16 @@ if (!isset($_SESSION['role'])) {
             <div class="form-row">
               <label for="whom">Visit Whom : </label>
               <select name="whom" id="whom">
-                <option value="Director">Director General</option>
-                <option value="Principal">Principal</option>
+                <option value="0">--Select--</option>
+                <?php
+                if ($result->num_rows > 0) {
+                  while ($row = $result->fetch_assoc()) {
+                    echo "<option data-id='{$row['mobile']}' value='{$row['fullname']} ({$row['role']})'>{$row['fullname']} ({$row['role']})</option>";
+                  }
+                }
+                ?>
               </select>
+              <input type="hidden" name="whom_mobile" id="whom_mobile">
             </div>
             <div class="form-row">
               <label for="Location">Location : </label>
@@ -95,9 +107,15 @@ if (!isset($_SESSION['role'])) {
     document.addEventListener('DOMContentLoaded', function () {
       var mobileInput = document.getElementById('mobile');
       var mobileError = document.getElementById('mobileError');
+      var whomSelect = document.getElementById('whom');
+      var whomMobile = document.getElementById('whom_mobile');
 
       mobileInput.addEventListener('input', function () {
         validateMobileNumber();
+      });
+
+      whomSelect.addEventListener('change', function () {
+        setWhomMobile();
       });
 
       function validateMobileNumber() {
@@ -112,19 +130,28 @@ if (!isset($_SESSION['role'])) {
           mobileInput.setCustomValidity('');
         }
       }
-    });
 
-    function showOtherReasonField() {
-      var reasonSelect = document.getElementById('reason');
-      var otherReasonRow = document.getElementById('otherReasonRow');
-      if (reasonSelect.value === 'Other') {
-        otherReasonRow.style.display = 'block';
-      } else {
-        otherReasonRow.style.display = 'none';
+      function showOtherReasonField() {
+        var reasonSelect = document.getElementById('reason');
+        var otherReasonRow = document.getElementById('otherReasonRow');
+        if (reasonSelect.value === 'Other') {
+          otherReasonRow.style.display = 'block';
+        } else {
+          otherReasonRow.style.display = 'none';
+        }
       }
-    }
+
+      function setWhomMobile() {
+        var selectedOption = whomSelect.options[whomSelect.selectedIndex];
+        whomMobile.value = selectedOption.getAttribute('data-id');
+        console.log('Selected Mobile:', whomMobile.value); // Debugging output
+      }
+    });
   </script>
   <script src="../scripts.js"></script>
 </body>
 
 </html>
+<?php
+$conn->close();
+?>
