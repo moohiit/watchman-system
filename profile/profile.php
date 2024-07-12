@@ -7,7 +7,7 @@ if (!isset($_SESSION['role'])) {
 include '../database.php';
 
 $userId = $_SESSION['userId'];
-$sql = "SELECT id, fullname, username AS email, mobile, password, role, department, status FROM users WHERE id = $userId";
+$sql = "SELECT id, fullname, username AS email, mobile, password, role, department, status, photo_url FROM users WHERE id = $userId";
 $result = $conn->query($sql);
 $user = $result->fetch_assoc();
 
@@ -24,9 +24,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $message = "Error updating profile: " . $conn->error;
   }
 
-  $sql = "SELECT id, fullname, username AS email, mobile, password, role, department, status FROM users WHERE id = $userId";
+  $sql = "SELECT id, fullname, username AS email, mobile, password, role, department, status,photo_url FROM users WHERE id = $userId";
   $result = $conn->query($sql);
   $user = $result->fetch_assoc();
+  $photo_url = isset($user['photo_url']) && !empty($user['photo_url']) ? $user['photo_url'] : '../profile.png';
 }
 ?>
 <!DOCTYPE html>
@@ -47,45 +48,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body>
   <?php include "../sidebar/sidebar.php" ?>
   <section class="home-section">
-    <nav>
-      <div class="sidebar-button">
-        <i class='bx bx-menu sidebarBtn'></i>
-        <span class="dashboard">Watchman System</span>
-      </div>
-      <div class="avt dropdown">
-        <button class="dropdown-toggle" id="profile-dropdown-toggle">
-          <img src="<?php echo isset($user['photo_url']) ? $user['photo_url'] : '../profile.png'; ?>"
-            alt="Profile Avatar" class="profile-avatar">
-        </button>
-        <ul class="dropdown-menu" id="profile-dropdown">
-          <li><a href="../profile/profile.php?id=<?php echo $_SESSION['userId']; ?>">Profile</a></li>
-          <li><a href="../logout.php">Logout</a></li>
-        </ul>
-      </div>
-    </nav>
+    <?php include "../navbar/navbar.php" ?>
     <div class="home-content">
       <div class="main-content">
         <h2>
           <center>User Profile</center>
         </h2>
-        <?php if (isset($message) || isset($_SESSION['profile_picture'])): ?>
+        <?php if (isset($message)): ?>
           <div class="alert alert-info">
             <center>
               <?php echo $message; ?>
-              <?php echo isset($_SESSION['profile_picture']) ? $_SESSION['profile_picture'] : ''; ?>
-              <?php unset($_SESSION['profile_picture']); ?>
               <?php unset($message); ?>
+            </center>
+          </div>
+        <?php endif; ?>
+        <?php if (isset($_SESSION['profile_picture'])): ?>
+          <div class="alert alert-info">
+            <center>
+              <?php echo $_SESSION['profile_picture']; ?>
+              <?php unset($_SESSION['profile_picture']); ?>
             </center>
           </div>
         <?php endif; ?>
         <div class="form-container">
           <div class="form-wrapper">
             <div class="profile-picture">
-              <img src="<?php echo isset($user['photo_url']) ? $user['photo_url'] : '../profile.png'; ?>"
-                alt="Profile Picture" id="profilePicture">
+              <img src="<?php echo $photo_url; ?>" alt="Profile Picture" id="profilePicture">
               <a href="#" id="updateProfilePictureLink">Update Profile Picture</a>
             </div>
-            <form id="profileForm" method="POST" action="updateProfile.php">
+            <form id="profileForm" method="POST">
               <div class="form-group">
                 <label for="fullname">Full Name:</label>
                 <input type="text" class="form-control" id="fullname" name="fullname"
@@ -138,10 +129,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <span class="close">&times;</span>
         <form id="updateProfilePictureForm" method="POST" enctype="multipart/form-data"
           action="updateProfilePicture.php">
-            <label for="profilePictureInput">Select a new profile picture:</label>
-            <input type="file" class="form-control-file" id="profilePictureInput" name="profilePicture">
+          <label for="profilePictureInput">Select a new profile picture:</label>
+          <input type="file" class="form-control-file" id="profilePictureInput" name="profilePicture">
+          <div id="loader" style="display: none;">
+            <center>
+              <img src="./loader.gif" style="width: 100px; height: 100px; margin-top: 5px;" alt="Loading..." />
+              <p>Updating Photo...</p>
+            </center>
+          </div>
           <div class="button-group">
-            <button type="submit" class="btn btn-success" name="submit">Upload</button>
+            <button type="submit" class="btn btn-success" name="submit" id="uploadBtn">Upload</button>
           </div>
         </form>
       </div>
@@ -193,7 +190,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           document.getElementById('updateProfilePictureModal').style.display = 'none';
         }
       };
+
+      // New code to handle file upload and loader
+      var updateProfilePictureForm = document.getElementById('updateProfilePictureForm');
+      updateProfilePictureForm.addEventListener('submit', function () {
+        document.getElementById('uploadBtn').style.display = 'none';
+        document.getElementById('loader').style.display = 'block';
+      });
     });
+
   </script>
   <script src="../scripts.js"></script>
 </body>

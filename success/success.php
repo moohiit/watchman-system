@@ -29,35 +29,20 @@ include '../database.php';
     ?>
   <section class="home-section">
     <!-- Navbar start Here -->
-    <nav>
-      <div class="sidebar-button">
-        <i class='bx bx-menu sidebarBtn'></i>
-        <span class="dashboard">Watchman System</span>
-      </div>
-      <div class="avt dropdown">
-        <button class="dropdown-toggle" id="profile-dropdown-toggle">
-            <img src="../profile.png" alt="Profile Avatar" class="profile-avatar">
-        </button>
-        <ul class="dropdown-menu" id="profile-dropdown">
-          <li><a href="../profile/profile.php?id=<?php echo $_SESSION['userId']; ?>">Profile</a></li>          <li><a href="../logout.php">Logout</a></li>
-        </ul>
-      </div>
-    </nav>
+    <?php include "../navbar/navbar.php" ?>
     <!-- Navbar ends Here -->
     <div class="home-content">
       <!-- Main Content Goes Here   -->
       <div class="main-content">
-      <div class="success-message">
-        <h2>Form Submitted Successfully!</h2>
-        <a href="../Search/search.php" class="back-button">Back to Search</a>
+        
       </div>
-    </div>
       <!-- Main Content Ends Here -->
     </div>
     <footer>
       <p>&copy; Watchman System <br> Developed by Mohit Patel and Raman Goyal</p>
     </footer>
   </section>
-<script src="../scripts.js"></script>
+  <script src="../scripts.js"></script>
 </body>
+
 </html>

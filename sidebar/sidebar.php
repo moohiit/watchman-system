@@ -72,6 +72,16 @@
         </a>
       </li>
     <?php } ?>
+    <?php
+    if ($_SESSION['role'] == 'admin' || $_SESSION['role'] == 'hod') {
+      ?>
+      <li class="nav-link">
+        <a href="../message/message.php">
+          <i class="bx bx-message icon"></i>
+          <span class="text nav-text">Messages</span>
+        </a>
+      </li>
+    <?php } ?>
     <li class="log_out nav-link">
       <a href="../logout.php">
         <i class='bx bx-log-out bx-fade-left-hover'></i>

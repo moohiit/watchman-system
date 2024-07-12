@@ -27,21 +27,7 @@ include '../database.php';
   include "../sidebar/sidebar.php"
     ?>
   <section class="home-section">
-    <nav>
-      <div class="sidebar-button">
-        <i class='bx bx-menu sidebarBtn'></i>
-        <span class="dashboard">Watchman System</span>
-      </div>
-      <div class="avt dropdown">
-        <button class="dropdown-toggle" id="profile-dropdown-toggle">
-            <img src="../profile.png" alt="Profile Avatar" class="profile-avatar">
-        </button>
-        <ul class="dropdown-menu" id="profile-dropdown">
-          <li><a href="../profile/profile.php?id=<?php echo $_SESSION['userId']; ?>">Profile</a></li>
-          <li><a href="../logout.php">Logout</a></li>
-        </ul>
-      </div>
-    </nav>
+    <?php include "../navbar/navbar.php" ?>
     <div class="home-content">
       <div class="main-content">
         <?php

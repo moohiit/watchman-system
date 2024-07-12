@@ -1,0 +1,4 @@
+.nav-links .nav-link a[href*="../message/message.php"] {
+  border: white 2px solid;
+  border-radius: 5px;
+}
