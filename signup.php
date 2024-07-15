@@ -66,9 +66,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       <select id="role" name="role" required onchange="hidedept()">
         <option value="">Select a role</option>
         <option value="watchman">Guard</option>
-        <option value="classIncharge">Class Incharge</option>
+        <!-- <option value="classIncharge">Class Incharge</option>
+        <option value="faculty">Faculty</option> -->
         <option value="hod">Head of Department</option>
-        <!-- <option value="admin">Admin</option> -->
+        <option value="admin">Admin</option>
       </select>
       <select name="department" id="department" required>
         <option value="">--Select Department--</option>

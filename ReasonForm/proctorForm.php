@@ -28,9 +28,7 @@ if (isset($_GET['id'])) {
 </head>
 
 <body>
-  <?php
-  include "../sidebar/sidebar.php"
-    ?>
+  <?php include "../sidebar/sidebar.php" ?>
   <section class="home-section">
     <!-- Navbar start Here -->
     <?php include "../navbar/navbar.php" ?>
@@ -89,7 +87,19 @@ if (isset($_GET['id'])) {
               </div>
               <div class="form-row">
                 <label for="reason">Reason:</label>
-                <textarea name="reason" placeholder="Fill Reason" required></textarea>
+                <select name="reason" id="reason" onchange="checkReason(this.value)">
+                  <?php
+                  $reasonSql = "SELECT * FROM reasons";
+                  $reasonResult = mysqli_query($conn, $reasonSql);
+                  while ($reasonRow = mysqli_fetch_assoc($reasonResult)) {
+                    echo "<option value='" . $reasonRow['reason'] . "'>" . $reasonRow['reason'] . "</option>";
+                  }
+                  ?>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
+              <div class="form-row">
+                <input type="text" name="other_reason" id="other_reason" placeholder="Fill Reason" style="display:none;">
               </div>
               <div class="form-row">
                 <input type="submit" class="btn" name="btn">
@@ -104,11 +114,17 @@ if (isset($_GET['id'])) {
             $year = $_POST['year'];
             $num = $_POST['num'];
             $reason = $_POST['reason'];
+            if ($reason === "Other") {
+              $reason = $_POST['other_reason'];
+              // Insert the new reason into the reasons table
+              $insertReasonSql = "INSERT INTO reasons (reason) VALUES ('$reason')";
+              mysqli_query($conn, $insertReasonSql);
+            }
             $issue = $_POST['issue'];
             $author = $_POST['author'];
 
-            //Inserting the data into database
-            $sql = "INSERT INTO inqury_data(student_id,name,dprt,year,contact,reason,authorisedBy,status,photo_url) values('{$student_id}','{$name}','{$dept}','{$year}','{$num}','{$reason}','{$author}','{$issue}','{$photo}')";
+            // Inserting the data into database
+            $sql = "INSERT INTO inqury_data(student_id, name, dprt, year, contact, reason, authorisedBy, status, photo_url) VALUES ('$student_id', '$name', '$dept', '$year', '$num', '$reason', '$author', '$issue', '$photo')";
             $result = mysqli_query($conn, $sql);
             header('Location: ../success/success.php');
             ob_end_flush();
@@ -121,6 +137,16 @@ if (isset($_GET['id'])) {
       <p>&copy; Watchman System <br> Developed by Mohit Patel and Raman Goyal</p>
     </footer>
   </section>
+  <script>
+    function checkReason(value) {
+      var otherReason = document.getElementById("other_reason");
+      if (value === "Other") {
+        otherReason.style.display = "block";
+      } else {
+        otherReason.style.display = "none";
+      }
+    }
+  </script>
   <script src="../scripts.js"></script>
 </body>
 

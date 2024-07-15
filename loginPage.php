@@ -34,11 +34,11 @@ session_start();
         </div>
         <div class="column">
           <input type="radio" name="role" id="hod" class="role" value="hod" required>
-          <label for="hod">HOD/CI</label>
+          <label for="hod">HOD</label>
         </div>
         <div class="column">
-          <input type="radio" name="role" id="faculty" class="role" value="Watchman" required>
-          <label for="faculty">Guard</label>
+          <input type="radio" name="role" id="Watchman" class="role" value="Watchman" required>
+          <label for="Watchman">Guard</label>
         </div>
         <!-- <div class="column"><label for="student">Student</label>
           <input type="radio" name="role" id="student" class="role" value="student" required>

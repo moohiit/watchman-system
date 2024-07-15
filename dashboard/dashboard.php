@@ -58,6 +58,9 @@ $stmt->close();
     <div class="home-content">
       <!-- Main Content Goes Here   -->
       <div class="main-content">
+        <div class="heading">
+        <h1>Dashboard</h1>
+        </div>
         <div class="card-container">
           <!-- Card Start here -->
           <a class="card" href="./adminDashboard.php">
@@ -135,26 +138,8 @@ $stmt->close();
           // Check if the user is an admin
           if ($_SESSION['role'] == 'admin') {
             ?>
-            <a class="card" href="../manageUsers/manageUsers.php">
-              <p>Manage Users</p>
-              <p style="line-height: 1rem;" class="user-count">Active Users:
-                <?php
-                //select only users who are active
-                $sql = "SELECT COUNT(*) as count FROM users WHERE status='active'";
-                $result = mysqli_query($conn, $sql);
-                $row = $result->fetch_assoc();
-                echo $row["count"];
-                ?>
-              </p>
-              <p style="line-height: 1rem;" class="user-count">Inactive Users:
-                <?php
-                //select only users who are inactive
-                $sql = "SELECT COUNT(*) as count FROM users WHERE status='inactive'";
-                $result = mysqli_query($conn, $sql);
-                $row = $result->fetch_assoc();
-                echo $row["count"];
-                ?>
-              </p>
+            <a class="card" href="../manager/manager.php">
+              <p>Manage Databases</p>
             </a>
           <?php } ?>
 

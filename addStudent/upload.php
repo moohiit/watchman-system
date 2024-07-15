@@ -75,7 +75,7 @@ if (isset($_POST["submit"])) {
       $check_query = "SELECT * FROM users WHERE username='$email'";
       $result = mysqli_query($conn, $check_query);
       if (mysqli_num_rows($result) > 0) {
-        $_SESSION["status"] = "Error: User already exists!";
+        $_SESSION["status"] = "Error: Email already exists! Try with another email.";
         header("Location:addStudent.php "); // Redirect back to signup page
         exit();
       }

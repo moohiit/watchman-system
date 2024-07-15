@@ -39,7 +39,7 @@ if ($stmt->num_rows == 1) {
       header('Location: ./dashboard/dashboard.php'); // Adjust the path accordingly
     } else if ($role == 'hod' || $role=='classIncharge') {
       header('Location: ./dashboard/dashboard.php');
-    } else if ($role == 'Watchman') {
+    } else if ($role == 'Watchman' || $role == 'faculty') {
       header('Location: ./Search/search.php');
     } else if ($role == 'student') {
       header("Location: ./studentSection/studentProfile.php");

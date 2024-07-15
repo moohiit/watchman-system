@@ -31,9 +31,10 @@
       border-radius: 5px;
     }
 
-    header nav{
+    header nav {
       margin-right: 15px;
     }
+
     header nav a {
       color: #fff;
       margin: 0 15px;
@@ -48,10 +49,11 @@
       /* Add margin to offset the header height */
     }
 
-    .hero h1{
+    .hero h1 {
       font-size: 50px;
     }
-    .headings{
+
+    .headings {
       font-size: 30px;
     }
 
@@ -106,7 +108,7 @@
       color: #333;
     }
 
-    #get-started{
+    #get-started {
       background: #0C356A;
       color: #fff;
       padding: 10px;
@@ -123,19 +125,20 @@
     <nav>
       <a href="#hero">Home</a>
       <a href="./loginPage.php">Login</a>
-      <a href="#about">About</a>
+      <!-- <a href="#about">About</a>
       <a href="#features">Features</a>
-      <a href="#contact">Contact Us</a>
+      <a href="#contact">Contact Us</a> -->
     </nav>
   </header>
 
   <section class="hero" id="hero">
-    <h1>Welcome to the Watchman System</h1>
+    <h1>Welcome to Khandelwal College of Management Science and Technology (KCMT),Bareilly
+    </h1>
     <p>Efficient and Secure Entry and Exit Management</p>
     <button id="get-started" onclick="location.href='./loginPage.php'">Get Started</button>
   </section>
 
-  <section class="section features" id="features">
+  <!-- <section class="section features" id="features">
     <h1 class="headings">Features</h1>
     <div class="feature">
       <i class="fas fa-id-card"></i>
@@ -195,7 +198,7 @@
       <button type="submit">Send</button>
     </form>
     <p>Email: support@college.edu | Phone: (123) 456-7890</p>
-  </section>
+  </section> -->
 
   <footer>
     <p>

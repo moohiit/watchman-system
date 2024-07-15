@@ -34,7 +34,19 @@ include '../database.php';
     <div class="home-content">
       <!-- Main Content Goes Here   -->
       <div class="main-content">
-        
+        <div class="success-message">
+          <h2>
+            <?php
+            if (isset($_SESSION['success'])) {
+              echo $_SESSION['success'];
+              unset($_SESSION['success']);
+            } else {
+              echo 'Data Recorded Successfully';
+            }
+            ?>
+          </h2>
+          <a href="../Search/search.php" class="back-button">Search More</a>
+        </div>
       </div>
       <!-- Main Content Ends Here -->
     </div>
