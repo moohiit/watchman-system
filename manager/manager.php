@@ -86,6 +86,28 @@ include '../database.php';
                 ?>
               </p>
             </a>
+            <a class="card" href="../manager/manageStudents.php">
+              <p>Manage Students</p>
+              <p style="line-height: 1rem;" class="user-count">Total Students:
+                <?php
+                $sql = "SELECT COUNT(*) as count FROM student ;";
+                $result = mysqli_query($conn, $sql);
+                $row = $result->fetch_assoc();
+                echo $row["count"];
+                ?>
+              </p>
+            </a>
+            <a class="card" href="../manager/manageCourses.php">
+              <p>Manage Courses</p>
+              <p style="line-height: 1rem;" class="user-count">Total Students:
+                <?php
+                $sql = "SELECT COUNT(*) as count FROM courses ;";
+                $result = mysqli_query($conn, $sql);
+                $row = $result->fetch_assoc();
+                echo $row["count"];
+                ?>
+              </p>
+            </a>
           <?php } ?>
         
           <!-- Card End here -->

@@ -32,6 +32,12 @@ $result = $conn->query($sql);
     <?php include "../navbar/navbar.php"; ?>
     <div class="home-content">
       <div class="main-content">
+        <?php if (isset($_SESSION['whatsapp_status'])): ?>
+          <div class="alert alert-info">
+            <center><?php echo $_SESSION['whatsapp_status']; ?></center>
+            <?php unset($_SESSION['whatsapp_status']); ?>
+          </div>
+        <?php endif; ?>
         <div class="form-container">
           <form action="whatsappmessage.php" class="form" method="post" enctype="multipart/form-data"
             onsubmit="setWhomMobile()">

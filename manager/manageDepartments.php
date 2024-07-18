@@ -13,17 +13,18 @@ if ($conn->connect_error) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_department'])) {
   $deptEmail = $_POST['deptEmail'];
   $department = $_POST['department'];
+  $departmentCode = strtoupper($_POST['department_code']); // Convert to uppercase
   $hodName = $_POST['hodName'];
   $hodMobile = $_POST['hodMobile'];
 
-  // Check if the department email or department name already exists
-  $checkSql = "SELECT * FROM department WHERE deptEmail = '$deptEmail' OR department = '$department'";
+  // Check if the department email or department name or department code already exists
+  $checkSql = "SELECT * FROM department WHERE deptEmail = '$deptEmail' OR department = '$department' OR department_code = '$departmentCode'";
   $checkResult = $conn->query($checkSql);
 
   if ($checkResult->num_rows > 0) {
-    $message = "Error: Department email or department name already exists.";
+    $message = "Error: Department email, name, or code already exists.";
   } else {
-    $insertSql = "INSERT INTO department (deptEmail, department, hod_name, hod_mobile) VALUES ('$deptEmail', '$department', '$hodName', '$hodMobile')";
+    $insertSql = "INSERT INTO department (deptEmail, department, department_code, hod_name, hod_mobile) VALUES ('$deptEmail', '$department', '$departmentCode', '$hodName', '$hodMobile')";
     if ($conn->query($insertSql) === TRUE) {
       $message = "Department added successfully.";
     } else {
@@ -32,19 +33,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_department'])) {
   }
 }
 
-
 // Handle form submission for editing a department
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['edit_department'])) {
   $deptID = $_POST['deptID'];
   $deptEmail = $_POST['deptEmail'];
   $department = $_POST['department'];
+  $departmentCode = strtoupper($_POST['department_code']); // Convert to uppercase
   $hodName = $_POST['hodName'];
   $hodMobile = $_POST['hodMobile'];
-  $updateSql = "UPDATE department SET deptEmail='$deptEmail', department='$department', hod_name='$hodName', hod_mobile='$hodMobile' WHERE deptID='$deptID'";
-  if ($conn->query($updateSql) === TRUE) {
-    $message = "Department updated successfully.";
+
+  // Check if the new department code already exists (excluding the current department)
+  $checkSql = "SELECT * FROM department WHERE (deptEmail = '$deptEmail' OR department = '$department' OR department_code = '$departmentCode') AND deptID != '$deptID'";
+  $checkResult = $conn->query($checkSql);
+
+  if ($checkResult->num_rows > 0) {
+    $message = "Error: Department email, name, or code already exists.";
   } else {
-    $message = "Error updating department: " . $conn->error;
+    $updateSql = "UPDATE department SET deptEmail='$deptEmail', department='$department', department_code='$departmentCode', hod_name='$hodName', hod_mobile='$hodMobile' WHERE deptID='$deptID'";
+    if ($conn->query($updateSql) === TRUE) {
+      $message = "Department updated successfully.";
+    } else {
+      $message = "Error updating department: " . $conn->error;
+    }
   }
 }
 
@@ -97,16 +107,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_department']))
         <div class="form-container">
           <form class="form" method="POST">
             <div class="form-row">
-              <label for="deptEmail">Department Email:</label>
-              <input type="email" class="form-control" name="deptEmail" required>
-            </div>
-            <div class="form-row">
               <label for="department">Department:</label>
               <input type="text" class="form-control" name="department" required>
             </div>
             <div class="form-row">
+              <label for="department_code">Department Code:</label>
+              <input type="text" class="form-control" name="department_code" maxlength="3" required>
+            </div>
+            <div class="form-row">
               <label for="hodName">HOD Name:</label>
               <input type="text" class="form-control" name="hodName" required>
+            </div>
+            <div class="form-row">
+              <label for="deptEmail">Department Email:</label>
+              <input type="email" class="form-control" name="deptEmail" required>
             </div>
             <div class="form-row">
               <label for="hodMobile">HOD Mobile:</label>
@@ -122,11 +136,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_department']))
             <thead>
               <tr>
                 <th>ID</th>
-                <th>Department Email</th>
                 <th>Department</th>
+                <th>Department Code</th>
                 <th>HOD Name</th>
                 <th>HOD Mobile</th>
-                <th colspan="2"><center>Actions</center></th>
+                <th>Department Email</th>
+                <th colspan="2">
+                  <center>Actions</center>
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -137,13 +154,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_department']))
                 ?>
                 <tr>
                   <td><?php echo $row["deptID"]; ?></td>
-                  <td><?php echo $row["deptEmail"]; ?></td>
                   <td><?php echo $row["department"]; ?></td>
+                  <td><?php echo $row["department_code"]; ?></td>
                   <td><?php echo $row["hod_name"]; ?></td>
                   <td><?php echo $row["hod_mobile"]; ?></td>
+                  <td><?php echo $row["deptEmail"]; ?></td>
                   <td>
                     <button class="btn btn-warning"
-                      onclick="editDepartment('<?php echo $row['deptID']; ?>', '<?php echo $row['deptEmail']; ?>', '<?php echo $row['department']; ?>', '<?php echo $row['hod_name']; ?>', '<?php echo $row['hod_mobile']; ?>')">Edit</button>
+                      onclick="editDepartment('<?php echo $row['deptID']; ?>', '<?php echo $row['deptEmail']; ?>', '<?php echo $row['department']; ?>', '<?php echo $row['department_code']; ?>', '<?php echo $row['hod_name']; ?>', '<?php echo $row['hod_mobile']; ?>')">Edit</button>
                   </td>
                   <td>
                     <button class="btn btn-danger"
@@ -163,13 +181,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_department']))
     </footer>
   </section>
   <script>
-    function editDepartment(id, email, department, hodName, hodMobile) {
+    function editDepartment(id, email, department, departmentCode, hodName, hodMobile) {
       if (confirm("Are you sure you want to edit this department?")) {
         var newEmail = prompt("Edit Department Email:", email);
         var newDepartment = prompt("Edit Department:", department);
+        var newDepartmentCode = prompt("Edit Department Code:", departmentCode);
         var newHodName = prompt("Edit HOD Name:", hodName);
         var newHodMobile = prompt("Edit HOD Mobile:", hodMobile);
-        if (newEmail !== null && newDepartment !== null && newHodName !== null && newHodMobile !== null) {
+        if (newEmail !== null && newDepartment !== null && newDepartmentCode !== null && newHodName !== null && newHodMobile !== null) {
           var form = document.createElement("form");
           form.method = "POST";
           form.style.display = "none";
@@ -188,6 +207,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_department']))
           departmentInput.name = "department";
           departmentInput.value = newDepartment;
           form.appendChild(departmentInput);
+
+          var departmentCodeInput = document.createElement("input");
+          departmentCodeInput.name = "department_code";
+          departmentCodeInput.value = newDepartmentCode;
+          form.appendChild(departmentCodeInput);
 
           var hodNameInput = document.createElement("input");
           hodNameInput.name = "hodName";

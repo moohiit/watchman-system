@@ -20,18 +20,10 @@ if (isset($_POST["submit"])) {
     $reason = $otherReason;
   }
 
-  // Debugging output
-  // echo "Whom Mobile: " . $phone;
-  // exit();
-
-  // Inserting the data into the database
-  $sql = "INSERT INTO visitor(name, mobile, reason, visit_whom, location) VALUES ('{$name}', '{$mobile}', '{$reason}', '{$whom}', '{$location}')";
-  $result = mysqli_query($conn, $sql);
-
   require_once ('./vendor/autoload.php'); // if you use Composer
   //require_once('ultramsg.class.php'); // if you download ultramsg.class.php
-  $token = "9bxqsmzoeua477h8"; // Ultramsg.com token
-  $instance_id = "instance89948"; // Ultramsg.com instance id
+  $token = "17btnqgyxw2r7k8z"; // Ultramsg.com token
+  $instance_id = "instance90216"; // Ultramsg.com instance id
   $client = new UltraMsg\WhatsAppApi($token, $instance_id);
 
   // Updated WhatsApp message format
@@ -45,15 +37,27 @@ if (isset($_POST["submit"])) {
     . "Thank you.";
 
   $api = $client->sendChatMessage($phone, $message);
-  print_r($api);
 
-  if ($result) {
-    header("Location: success.php");
-    exit(); // Ensure that no further code is executed after the header
+  // Check the response from UltraMsg API
+  if ($api) {
+    // Inserting the data into the database only if the WhatsApp message is sent successfully
+    $sql = "INSERT INTO visitor(name, mobile, reason, visit_whom, location) VALUES ('{$name}', '{$mobile}', '{$reason}', '{$whom}', '{$location}')";
+    $result = mysqli_query($conn, $sql);
+
+    if ($result) {
+      $_SESSION['whatsapp_status'] = "Success: Visitor information saved and WhatsApp message sent successfully.";
+      header("Location: success.php");
+      exit(); // Ensure that no further code is executed after the header
+    } else {
+      $_SESSION['whatsapp_status'] = "Error: " . mysqli_error($conn);
+      header("Location: addVisitor.php");
+      exit();
+    }
   } else {
-    echo "Error: " . mysqli_error($conn);
+    $_SESSION['whatsapp_status'] = "Error: Failed to send WhatsApp message.";
+    header("Location: addVisitor.php");
+    exit();
   }
-
-  ob_end_flush();
 }
+ob_end_flush();
 ?>

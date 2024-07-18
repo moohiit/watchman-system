@@ -74,6 +74,7 @@ include '../database.php';
             $student_id = $row['id'];
             $photo = $row['photo_url'];
             $department = $row['department'];
+            $collegeId = $row['college_id'];
             ?>
             <form class="form">
               <h2 class="form-heading">Student Details</h2>
@@ -91,6 +92,12 @@ include '../database.php';
                   <label for="dprt">Department:</label>
                   <p>
                     <?php echo strtoupper($row['department']); ?>
+                  </p>
+                </div>
+                <div class="form-row">
+                  <label for="dprt">College ID:</label>
+                  <p>
+                    <?php echo strtoupper($collegeId); ?>
                   </p>
                 </div>
                 <div class="form-row">

@@ -22,8 +22,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     exit();
   }
 
+  // Check if HOD already exists for the selected department
+  if ($role === "hod") {
+    $hod_check_query = "SELECT * FROM users WHERE role='hod' AND department='$department'";
+    $hod_result = mysqli_query($conn, $hod_check_query);
+    if (mysqli_num_rows($hod_result) > 0) {
+      $_SESSION["signupError"] = "Error: HOD for the selected department already exists!";
+      header("Location: signup.php"); // Redirect back to signup page
+      exit();
+    }
+  }
+
   // Create SQL query to insert data into the users table
-  $sql = "INSERT INTO users (fullname, username, mobile, role,department, password) VALUES ('$name', '$email', '$mobile', '$role', '$department', '$password')";
+  $sql = "INSERT INTO users (fullname, username, mobile, role, department, password) VALUES ('$name', '$email', '$mobile', '$role', '$department', '$password')";
 
   if (mysqli_query($conn, $sql)) {
     // Redirect to a success page
@@ -35,7 +46,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     header("Location: signup.php"); // Redirect back to signup page
     exit();
   }
-
 }
 ?>
 
@@ -55,7 +65,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       if (isset($_SESSION["signupError"])) {
         ?>
         <h4 style="color: red;">
-          <?php echo $_SESSION["signupError"]; ?>
+          <?php echo $_SESSION["signupError"];
+          unset($_SESSION["signupError"]); ?>
         </h4>
         <?php
       }
@@ -89,10 +100,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       <button type="submit">Sign Up</button>
       <a style="text-decoration: none; color:#0C356A; margin-top:15px;" href="loginPage.php">Already have an account?
         Login</a>
-
     </form>
   </div>
-
 
   <footer>
     <p>&copy; Watchman System <br> Developed by Mohit Patel and Raman Goyal</p>
@@ -106,13 +115,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   </footer>
 </body>
 
-
 <script>
   function hidedept() {
     var role = document.getElementById("role").value;
     var departmentField = document.getElementById('department');
 
-    if (role == 'Watchman') {
+    if (role == 'watchman') {
       departmentField.style.display = "none";
       departmentField.removeAttribute('required');
     } else {
@@ -120,7 +128,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       departmentField.setAttribute('required', 'required');
     }
   }
-
 </script>
 
 </html>

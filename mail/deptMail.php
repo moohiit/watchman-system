@@ -23,11 +23,11 @@ if (isset($_POST['send_mail'])) {
     foreach ($departments as $department) {
         // Fetch data for each department
         $dept = $department['dprt'];
-        $sql = $pdo->prepare("SELECT username FROM users WHERE department = :dept AND role='hod';");
+        $sql = $pdo->prepare("SELECT deptEmail FROM department WHERE department = :dept");
         $sql->bindParam(':dept', $dept);
         $sql->execute();
         $row = $sql->fetchAll(PDO::FETCH_ASSOC);
-        $deptEmail = $row[0]["username"];
+        $deptEmail = $row[0]["deptEmail"];
 
         $stmt = $pdo->prepare("SELECT * FROM inqury_data WHERE dprt = :dept AND date = CURRENT_DATE");
         $stmt->bindParam(':dept', $dept);

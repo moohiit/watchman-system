@@ -87,7 +87,7 @@ include '../database.php';
                 </select>
               </div>
               <div class="form-row">
-                <label for="year">Year</label>
+                <label for="year">Course Year</label>
                 <select name="year" required>
                   <option value="First Year">First Year</option>
                   <option value="Second Year">Second Year</option>
@@ -98,6 +98,18 @@ include '../database.php';
                 <label for="mobile">Mobile No.</label>
                 <input type="text" name="mobile" id="mobile" required>
                 <small id="mobileError" style="color: red;" class="form-error"></small>
+              </div>
+              <div class="form-row">
+                <label for="batch_year">Batch Year</label>
+                <select name="batch_year" id="batch_year" required>
+                  <option value="">--Select Year--</option>
+                  <?php
+                    $currentYear = date("Y");
+                    for ($i = $currentYear - 5; $i <= $currentYear + 5; $i++) {
+                      echo "<option value='$i'>$i</option>";
+                    }
+                    ?>
+                </select>
               </div>
               <div class="form-row">
                 <label for="">Photo:</label>

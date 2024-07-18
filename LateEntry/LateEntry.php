@@ -109,7 +109,11 @@ $department = $_SESSION['department'];
                 } else {
                   $sql = "SELECT * FROM inqury_data WHERE `date` BETWEEN '$fromDate' AND '$toDate' AND status='Late' AND dprt = '$department'";
                 }
-              } else {
+              } else if (!$fromDate && !$toDate && $selectedDepartment != 'select') {
+                if ($role == 'admin') {
+                  $sql = "SELECT * FROM inqury_data WHERE status='Late' AND dprt = '$selectedDepartment'";
+                }
+              }else {
                 if ($role == 'admin') {
                   $sql = "SELECT * FROM inqury_data WHERE `date` = CURRENT_DATE AND status='Late'";
                 } else {

@@ -4,7 +4,21 @@ if (!isset($_SESSION['role'])) {
   header("Location: ../index.php");
   exit();
 }
+
+// Define the number of results per page
+$results_per_page = 48;
+
+// Determine which page number visitor is currently on
+if (isset($_GET['page']) && is_numeric($_GET['page'])) {
+  $page = $_GET['page'];
+} else {
+  $page = 1;
+}
+
+// Determine the SQL LIMIT starting number for the results on the displaying page
+$this_page_first_result = ($page - 1) * $results_per_page;
 ?>
+
 <!DOCTYPE html>
 <html>
 
@@ -33,12 +47,15 @@ if (!isset($_SESSION['role'])) {
     <div class="home-content">
       <!-- Main Content Goes Here   -->
       <div class="main-content">
+        <div class="heading">
+          <h1>Search Student</h1>
+        </div>
         <div class="form-container">
           <form method="post" class="form">
             <div class="form-row">
-                <label for="department">Department:</label>
-                <select name="department">
-                  <option value="">Select Department</option>
+              <label for="department">Department:</label>
+              <select name="department">
+                <option value="">Select Department</option>
                 <?php
                 include "../database.php";
                 $sql = "SELECT * from department";
@@ -54,8 +71,7 @@ if (!isset($_SESSION['role'])) {
             </div>
             <div class="form-row">
               <label for="name" class="label">Search:</label>
-              <input type="text" id="search" name="search" class="input"
-                placeholder="Name or ID" autocomplete="off">
+              <input type="text" id="search" name="search" class="input" placeholder="Name or ID" autocomplete="off">
             </div>
             <div class="form-row">
               <input type="submit" value="Search" name="btn">
@@ -64,9 +80,9 @@ if (!isset($_SESSION['role'])) {
         </div>
         <?php
         include '../database.php';
-        if (isset($_POST["btn"])) {
-          $search = $_POST['search'];
-          $department = $_POST['department'] ?? null;
+        if (isset($_POST["btn"]) || isset($_GET['page'])) {
+          $search = $_POST['search'] ?? '';
+          $department = $_POST['department'] ?? '';
 
           // Construct the base SQL query
           $sql = "SELECT * FROM student WHERE ";
@@ -83,6 +99,16 @@ if (!isset($_SESSION['role'])) {
             $sql .= " AND department = '$department'";
           }
 
+          // Get the total number of results
+          $result = mysqli_query($conn, $sql);
+          $number_of_results = mysqli_num_rows($result);
+
+          // Calculate the total number of pages
+          $number_of_pages = ceil($number_of_results / $results_per_page);
+
+          // Add the LIMIT clause to the SQL query
+          $sql .= " LIMIT " . $this_page_first_result . "," . $results_per_page;
+
           $result = mysqli_query($conn, $sql);
           ?>
           <div class="card-container">
@@ -96,10 +122,10 @@ if (!isset($_SESSION['role'])) {
               $conumber = $row["conumber"];
               $photo_url = $row["photo_url"];
               $userRole = $_SESSION['role'];
-              if ($userRole === 'admin'||$userRole==='hod') {
+              if ($userRole === 'admin' || $userRole === 'hod') {
                 $link = "./showStudent.php?id=$id";
               } else {
-                $link = "../ReasonForm/reasonForm.php?id=$id";
+                $link = "../ReasonForm/proctorForm.php?id=$id";
               }
               ?>
               <!-- Card Start here -->
@@ -125,9 +151,32 @@ if (!isset($_SESSION['role'])) {
               <!-- Card End here -->
               <?php
             }
+            ?>
+          </div>
+          <!-- Pagination Links -->
+          <div class="pagination">
+            <?php
+            // Display pagination controls
+            if ($page > 1) {
+              echo '<a href="search.php?page=' . ($page - 1) . '">&laquo; Previous</a>';
+            }
+
+            for ($i = 1; $i <= $number_of_pages; $i++) {
+              if ($i == $page) {
+                echo '<a class="active" href="search.php?page=' . $i . '">' . $i . '</a>';
+              } else {
+                echo '<a href="search.php?page=' . $i . '">' . $i . '</a>';
+              }
+            }
+
+            if ($page < $number_of_pages) {
+              echo '<a href="search.php?page=' . ($page + 1) . '">Next &raquo;</a>';
+            }
+            ?>
+          </div>
+          <?php
         }
         ?>
-        </div>
       </div>
       <!-- Main Content Ends Here -->
     </div>

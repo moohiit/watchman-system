@@ -54,6 +54,7 @@ if (isset($_POST["submit"])) {
       $email = $_POST['email'];
       $department = $_POST['dprt'];
       $year = $_POST['year'];
+      $batchYear = $_POST['batch_year'];
       $mobile = $_POST['mobile'];
       $role = 'student';
       $password = $_POST['mobile'];
@@ -61,18 +62,29 @@ if (isset($_POST["submit"])) {
       // Get the current year
       $currentYear = date("Y");
 
+      // Fetch the department code from the department table
+      $sqlDeptCode = "SELECT department_code FROM department WHERE department='$department'";
+      $resultDeptCode = mysqli_query($conn, $sqlDeptCode);
+      if ($rowDeptCode = mysqli_fetch_assoc($resultDeptCode)) {
+        $departmentCode = $rowDeptCode['department_code'];
+      } else {
+        $_SESSION['status'] = "Error: Department code not found. Update the department Code.";
+        header("Location: addStudent.php");
+        exit();
+      }
+
       // Generate the college_id
       $sqlCount = "SELECT COUNT(*) as count FROM student WHERE department='$department' AND year='$year'";
       $resultCount = mysqli_query($conn, $sqlCount);
       $rowCount = mysqli_fetch_assoc($resultCount);
       $count = $rowCount['count'] + 1;
-      $collegeId = $department . $currentYear . str_pad($count, 3, '0', STR_PAD_LEFT);
+      $collegeId = $departmentCode . $currentYear . str_pad($count, 3, '0', STR_PAD_LEFT);
 
       // SQL query to insert data into the "student" table
-      $sqlStudent = "INSERT INTO student (name, email, department, year, conumber, photo_url, college_id) VALUES ('$name','$email', '$department', '$year', '$mobile', '$imageUrl', '$collegeId')";
+      $sqlStudent = "INSERT INTO student (name, email, department, year, batch_year, conumber, photo_url, college_id) VALUES ('$name','$email', '$department', '$year', '$batchYear', '$mobile', '$imageUrl', '$collegeId')";
 
       // Check if student already exists
-      $check_query = "SELECT * FROM users WHERE username='$email'";
+      $check_query = "SELECT * FROM student WHERE email='$email'";
       $result = mysqli_query($conn, $check_query);
       if (mysqli_num_rows($result) > 0) {
         $_SESSION["status"] = "Error: Email already exists! Try with another email.";
@@ -81,12 +93,12 @@ if (isset($_POST["submit"])) {
       }
 
       // Create SQL query to insert data into the users table
-      $sqlUsers = "INSERT INTO users (fullname, username, mobile, role, department, password) VALUES ('$name', '$email', '$mobile', '$role', '$department', '$password')";
+      // $sqlUsers = "INSERT INTO users (fullname, username, mobile, role, department, password) VALUES ('$name', '$email', '$mobile', '$role', '$department', '$password')";
 
       // Execute the query
+      // $queryUsers = $conn->query($sqlUsers);
       $queryStudent = $conn->query($sqlStudent);
-      $queryUsers = $conn->query($sqlUsers);
-      if ($queryStudent === TRUE && $queryUsers === True) {
+      if ($queryStudent === TRUE ) { //&& $queryUsers === True
         $_SESSION['success'] = "Image uploaded successfully and data saved in the database.";
         // Redirect to success page or handle as needed
         header("Location: success.php");
@@ -111,3 +123,4 @@ if (isset($_POST["submit"])) {
     exit();
   }
 }
+?>

@@ -17,7 +17,7 @@
     <li class="nav-link">
       <a href="../Search/search.php">
         <i class="bx bx-search icon"></i>
-        <span class="text nav-text">Search Student</span>
+        <span class="text nav-text">Search </span>
       </a>
     </li>
     <?php
