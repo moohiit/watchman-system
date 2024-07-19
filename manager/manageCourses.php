@@ -120,7 +120,7 @@ while ($row = $coursesResult->fetch_assoc()) {
                 <th>ID</th>
                 <th>Department</th>
                 <th>Duration</th>
-                <th>Actions</th>
+                <th colspan="2">Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -135,6 +135,8 @@ while ($row = $coursesResult->fetch_assoc()) {
                       <button type="submit" name="delete_course" class="btn btn-danger"
                         onclick="return confirm('Are you sure you want to delete this course?');">Delete</button>
                     </form>
+                  </td>
+                  <td>
                     <button type="button" class="btn btn-info"
                       onclick="showUpdateForm(<?php echo $course['id']; ?>, '<?php echo $course['department']; ?>', <?php echo $course['duration']; ?>)">Update</button>
                   </td>

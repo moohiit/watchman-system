@@ -10,11 +10,11 @@ if (!isset($_SESSION['role'])) {
 if (isset($_POST["submit"])) {
   // Check if a file is uploaded
   if (isset($_FILES["profilePicture"]) && $_FILES["profilePicture"]["error"] == 0) {
-    // ImgBB API endpoint
-    $imgbbApiUrl = "https://api.imgbb.com/1/upload";
+    // FreeImage.host API endpoint
+    $apiUrl = "https://freeimage.host/api/1/upload";
 
-    // Set your ImgBB API key
-    $apiKey = "1ada3b3c96d91d229518a4bb06c14452";
+    // Set your FreeImage.host API key
+    $apiKey = "6d207e02198a847aa98d0a2a901485a5";
 
     // Read the file content
     $imageFile = $_FILES["profilePicture"]["tmp_name"];
@@ -23,29 +23,29 @@ if (isset($_POST["submit"])) {
     // Create a unique name for the image to avoid overwriting
     $uniqueName = uniqid("image_") . ".jpeg"; // Assuming you want JPEG format
 
-    // Prepare the cURL request to ImgBB API
-    $imgbbRequest = curl_init($imgbbApiUrl);
-    $imgbbImageData = [
+    // Prepare the cURL request to FreeImage.host API
+    $apiRequest = curl_init($apiUrl);
+    $apiImageData = [
       'key' => $apiKey,
-      'image' => base64_encode($binaryImageData),
-      'name' => $uniqueName,
+      'source' => base64_encode($binaryImageData),
+      'format' => 'json'
     ];
-    curl_setopt($imgbbRequest, CURLOPT_POST, 1);
-    curl_setopt($imgbbRequest, CURLOPT_POSTFIELDS, $imgbbImageData);
-    curl_setopt($imgbbRequest, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($imgbbRequest, CURLOPT_FAILONERROR, true);
+    curl_setopt($apiRequest, CURLOPT_POST, 1);
+    curl_setopt($apiRequest, CURLOPT_POSTFIELDS, $apiImageData);
+    curl_setopt($apiRequest, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($apiRequest, CURLOPT_FAILONERROR, true);
 
     // Execute cURL request
-    $imgbbResult = curl_exec($imgbbRequest);
-    $imgbbHttpStatus = curl_getinfo($imgbbRequest, CURLINFO_HTTP_CODE);
-    curl_close($imgbbRequest);
+    $apiResult = curl_exec($apiRequest);
+    $apiHttpStatus = curl_getinfo($apiRequest, CURLINFO_HTTP_CODE);
+    curl_close($apiRequest);
 
     // Decode the JSON response
-    $imgbbResponse = json_decode($imgbbResult, true);
+    $apiResponse = json_decode($apiResult, true);
 
     // Check if the upload was successful
-    if ($imgbbHttpStatus == 200 && isset($imgbbResponse['data']['url'])) {
-      $imageUrl = $imgbbResponse['data']['url'];
+    if ($apiHttpStatus == 200 && isset($apiResponse['image']['url'])) {
+      $imageUrl = $apiResponse['image']['url'];
 
       // Update the user's photo_url in the database
       $userId = $_SESSION['userId'];
@@ -56,7 +56,7 @@ if (isset($_POST["submit"])) {
         $_SESSION['profile_picture'] = "Error updating profile picture in the database: " . $conn->error;
       }
     } else {
-      $_SESSION['profile_picture'] = "Error uploading image to ImgBB. HTTP Status: $imgbbHttpStatus";
+      $_SESSION['profile_picture'] = "Error uploading image to FreeImage.host. HTTP Status: $apiHttpStatus";
     }
   } else {
     $_SESSION['profile_picture'] = "Please select an image to upload.";

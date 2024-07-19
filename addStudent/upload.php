@@ -10,11 +10,11 @@ if (!isset($_SESSION['role'])) {
 if (isset($_POST["submit"])) {
   // Check if the resized image data is received from the client-side JavaScript
   if (isset($_POST["resizedImageData"])) {
-    // ImgBB API endpoint
-    $imgbbApiUrl = "https://api.imgbb.com/1/upload";
+    // FreeImage.host API endpoint
+    $apiUrl = "https://freeimage.host/api/1/upload";
 
-    // Set your ImgBB API key
-    $apiKey = "1ada3b3c96d91d229518a4bb06c14452";
+    // Set your FreeImage.host API key
+    $apiKey = "6d207e02198a847aa98d0a2a901485a5";
 
     // Get the received resized image data
     $resizedImageData = $_POST["resizedImageData"];
@@ -25,29 +25,29 @@ if (isset($_POST["submit"])) {
     // Create a unique name for the image to avoid overwriting
     $uniqueName = uniqid("image_") . ".jpeg"; // Assuming you want JPEG format
 
-    // Prepare the cURL request to ImgBB API
-    $imgbbRequest = curl_init($imgbbApiUrl);
-    $imgbbImageData = [
+    // Prepare the cURL request to FreeImage.host API
+    $apiRequest = curl_init($apiUrl);
+    $apiImageData = [
       'key' => $apiKey,
-      'image' => base64_encode($binaryImageData),
-      'name' => $uniqueName,
+      'source' => base64_encode($binaryImageData),
+      'format' => 'json'
     ];
-    curl_setopt($imgbbRequest, CURLOPT_POST, 1);
-    curl_setopt($imgbbRequest, CURLOPT_POSTFIELDS, $imgbbImageData);
-    curl_setopt($imgbbRequest, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($imgbbRequest, CURLOPT_FAILONERROR, true);
+    curl_setopt($apiRequest, CURLOPT_POST, 1);
+    curl_setopt($apiRequest, CURLOPT_POSTFIELDS, $apiImageData);
+    curl_setopt($apiRequest, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($apiRequest, CURLOPT_FAILONERROR, true);
 
     // Execute cURL request
-    $imgbbResult = curl_exec($imgbbRequest);
-    $imgbbHttpStatus = curl_getinfo($imgbbRequest, CURLINFO_HTTP_CODE);
-    curl_close($imgbbRequest);
+    $apiResult = curl_exec($apiRequest);
+    $apiHttpStatus = curl_getinfo($apiRequest, CURLINFO_HTTP_CODE);
+    curl_close($apiRequest);
 
     // Decode the JSON response
-    $imgbbResponse = json_decode($imgbbResult, true);
+    $apiResponse = json_decode($apiResult, true);
 
     // Check if the upload was successful
-    if ($imgbbHttpStatus == 200 && isset($imgbbResponse['data']['url'])) {
-      $imageUrl = $imgbbResponse['data']['url'];
+    if ($apiHttpStatus == 200 && isset($apiResponse['image']['url'])) {
+      $imageUrl = $apiResponse['image']['url'];
 
       // Assuming you have form fields for name, department, year, and mobile
       $name = $_POST['name'];
@@ -60,7 +60,7 @@ if (isset($_POST["submit"])) {
       $password = $_POST['mobile'];
 
       // Get the current year
-      $currentYear = date("Y");
+      // $currentYear = date("Y");
 
       // Fetch the department code from the department table
       $sqlDeptCode = "SELECT department_code FROM department WHERE department='$department'";
@@ -78,7 +78,7 @@ if (isset($_POST["submit"])) {
       $resultCount = mysqli_query($conn, $sqlCount);
       $rowCount = mysqli_fetch_assoc($resultCount);
       $count = $rowCount['count'] + 1;
-      $collegeId = $departmentCode . $currentYear . str_pad($count, 3, '0', STR_PAD_LEFT);
+      $collegeId = $departmentCode . $batchYear . str_pad($count, 3, '0', STR_PAD_LEFT);
 
       // SQL query to insert data into the "student" table
       $sqlStudent = "INSERT INTO student (name, email, department, year, batch_year, conumber, photo_url, college_id) VALUES ('$name','$email', '$department', '$year', '$batchYear', '$mobile', '$imageUrl', '$collegeId')";
@@ -98,7 +98,7 @@ if (isset($_POST["submit"])) {
       // Execute the query
       // $queryUsers = $conn->query($sqlUsers);
       $queryStudent = $conn->query($sqlStudent);
-      if ($queryStudent === TRUE ) { //&& $queryUsers === True
+      if ($queryStudent === TRUE) { //&& $queryUsers === True
         $_SESSION['success'] = "Image uploaded successfully and data saved in the database.";
         // Redirect to success page or handle as needed
         header("Location: success.php");
@@ -110,7 +110,7 @@ if (isset($_POST["submit"])) {
         exit();
       }
     } else {
-      $_SESSION['status'] = "Error uploading image to ImgBB. HTTP Status: $imgbbHttpStatus";
+      $_SESSION['status'] = "Error uploading image to FreeImage.host. HTTP Status: $apiHttpStatus";
       // Redirect to addStudent page with an error message
       header("Location: addStudent.php");
       exit();
