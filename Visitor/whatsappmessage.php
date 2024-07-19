@@ -15,7 +15,8 @@ if (isset($_POST["submit"])) {
   $whom = $_POST['whom'];
   $location = $_POST['Location'];
   $phone = $_POST["whom_mobile"];
-
+  date_default_timezone_set('Asia/Kolkata');
+  $currentTime = date('H:i:s');
   if ($reason === 'Other') {
     $reason = $otherReason;
   }
@@ -41,7 +42,7 @@ if (isset($_POST["submit"])) {
   // Check the response from UltraMsg API
   if ($api) {
     // Inserting the data into the database only if the WhatsApp message is sent successfully
-    $sql = "INSERT INTO visitor(name, mobile, reason, visit_whom, location) VALUES ('{$name}', '{$mobile}', '{$reason}', '{$whom}', '{$location}')";
+    $sql = "INSERT INTO visitor(name, mobile, reason,entry_time, visit_whom, location) VALUES ('{$name}', '{$mobile}', '{$reason}', '{$currentTime}', '{$whom}', '{$location}')";
     $result = mysqli_query($conn, $sql);
 
     if ($result) {

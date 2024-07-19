@@ -198,7 +198,8 @@ function getCourseDuration($department)
                 <th>Email</th>
                 <th>Contact Number</th>
                 <th>Department</th>
-                <th>Year</th>
+                <th>Course Year</th>
+                <th>Batch Year</th>
                 <th>Photo</th>
                 <th>College ID</th>
                 <th>Actions</th>
@@ -213,6 +214,7 @@ function getCourseDuration($department)
                   <td><?php echo $student["conumber"]; ?></td>
                   <td><?php echo $student["department"]; ?></td>
                   <td><?php echo $student["year"]; ?></td>
+                  <td><?php echo $student["batch_year"]; ?></td>
                   <td><img src="<?php echo $student["photo_url"]; ?>" alt="Student Photo" width="50" height="50"></td>
                   <td><?php echo $student["college_id"]; ?></td>
                   <td>

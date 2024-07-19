@@ -53,7 +53,8 @@ if (!isset($_SESSION['role'])) {
           }
           if (isset($_POST['exit'])) {
             $visitorId = $_POST['visitor_id'];
-            $currentTime = date('Y-m-d H:i:s');
+            date_default_timezone_set('Asia/Kolkata');
+            $currentTime = date('H:i:s');
             $updateSql = "UPDATE visitor SET status='visited', exit_time='$currentTime' WHERE visitor_id='$visitorId'";
             $conn->query($updateSql);
           }

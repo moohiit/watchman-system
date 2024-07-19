@@ -122,9 +122,10 @@ if (isset($_GET['id'])) {
             }
             $issue = $_POST['issue'];
             $author = $_POST['author'];
-
+            date_default_timezone_set('Asia/Kolkata');
+            $currentTime = date('H:i:s');
             // Inserting the data into database
-            $sql = "INSERT INTO inqury_data(student_id, name, dprt, year, contact, reason, authorisedBy, status, photo_url) VALUES ('$student_id', '$name', '$dept', '$year', '$num', '$reason', '$author', '$issue', '$photo')";
+            $sql = "INSERT INTO inqury_data(student_id, name, dprt, year, contact, reason, authorisedBy, status,currentime, photo_url) VALUES ('$student_id', '$name', '$dept', '$year', '$num', '$reason', '$author', '$issue', '$currentTime', '$photo')";
             $result = mysqli_query($conn, $sql);
             header('Location: ../success/success.php');
             ob_end_flush();

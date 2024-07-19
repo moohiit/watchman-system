@@ -75,7 +75,7 @@ $department = $_SESSION['department'];
           // Initialize $fromDate and $toDate
           $fromDate = null;
           $toDate = null;
-          $selectedDepartment = null;
+          $selectedDepartment = 'select';
           if (isset($_POST["btn"])) {
             $fromDate = $_POST['from'] ?? null;
             $toDate = $_POST['to'] ?? null;
@@ -101,21 +101,21 @@ $department = $_SESSION['department'];
               // Use prepared statements to prevent SQL injection
               if ($fromDate && $toDate) {
                 if ($role == 'admin' && $selectedDepartment != 'select') {
-                  $sql = "SELECT * FROM inqury_data WHERE `date` BETWEEN '$fromDate' AND '$toDate' AND status='Early' AND dprt = '$selectedDepartment'";
+                  $sql = "SELECT * FROM inqury_data WHERE `date` BETWEEN '$fromDate' AND '$toDate' AND status='Early' AND dprt = '$selectedDepartment' ORDER BY date DESC";
                 } else if ($role == 'admin') {
-                  $sql = "SELECT * FROM inqury_data WHERE `date` BETWEEN '$fromDate' AND '$toDate' AND status='Early'";
+                  $sql = "SELECT * FROM inqury_data WHERE `date` BETWEEN '$fromDate' AND '$toDate' AND status='Early' ORDER BY date DESC";
                 } else {
-                  $sql = "SELECT * FROM inqury_data WHERE `date` BETWEEN '$fromDate' AND '$toDate' AND status='Early' AND dprt = '$department'";
+                  $sql = "SELECT * FROM inqury_data WHERE `date` BETWEEN '$fromDate' AND '$toDate' AND status='Early' AND dprt = '$department' ORDER BY date DESC";
                 }
               } else if (!$fromDate && !$toDate && $selectedDepartment != 'select') {
                 if ($role == 'admin') {
-                  $sql = "SELECT * FROM inqury_data WHERE status='Early' AND dprt = '$selectedDepartment'";
+                  $sql = "SELECT * FROM inqury_data WHERE status='Early' AND dprt = '$selectedDepartment' ORDER BY date DESC";
                 }
               }else {
                 if ($role == 'admin') {
-                  $sql = "SELECT * FROM inqury_data WHERE `date` = CURRENT_DATE AND status='Early'";
+                  $sql = "SELECT * FROM inqury_data WHERE `date` = CURRENT_DATE AND status='Early' ORDER BY date DESC";
                 } else {
-                  $sql = "SELECT * FROM inqury_data WHERE `date` = CURRENT_DATE AND status='Early' AND dprt = '$department'";
+                  $sql = "SELECT * FROM inqury_data WHERE `date` = CURRENT_DATE AND status='Early' AND dprt = '$department' ORDER BY date DESC";
                 }
               }
               $result = mysqli_query($conn, $sql);

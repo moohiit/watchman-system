@@ -105,7 +105,9 @@ include '../database.php';
             $reason = $_POST['reason'];
             $author = $_POST['author'];
             //Inserting the data into database
-            $sql = "INSERT INTO inqury_data(student_id,name,dprt,year,contact,reason,authorisedBy,status,photo_url) values('{$student_id}','{$name}','{$dept}','{$year}','{$num}','{$reason}','{$author}','{$status}','{$photo}')";
+            date_default_timezone_set('Asia/Kolkata');
+            $currentTime = date('H:i:s');
+            $sql = "INSERT INTO inqury_data(student_id,name,dprt,year,contact,reason,authorisedBy,status, currentime,photo_url) values('{$student_id}','{$name}','{$dept}','{$year}','{$num}','{$reason}','{$author}','{$status}','{$currentTime}','{$photo}')";
             $result = mysqli_query($conn, $sql);
             header('Location: ../success/success.php');
             ob_end_flush();

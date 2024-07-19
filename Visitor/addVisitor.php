@@ -6,7 +6,6 @@ if (!isset($_SESSION['role'])) {
 }
 
 include '../database.php';
-
 $sql = "SELECT fullname, role, mobile FROM users";
 $result = $conn->query($sql);
 ?>
