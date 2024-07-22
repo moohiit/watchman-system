@@ -87,9 +87,9 @@ if ($conn->connect_error) {
               }
               // Use prepared statements to prevent SQL injection
               if ($department) {
-                $sql = "SELECT fullname, username, mobile, role, department, status FROM users WHERE department = '$department' AND role != 'admin' AND role !='student'";
+                $sql = "SELECT fullname, username, mobile, role, department, status FROM users WHERE department = '$department' AND role !='student'";
               } else {
-                $sql = "SELECT fullname, username, mobile, role, department, status FROM users WHERE role != 'admin' AND role !='student'";
+                $sql = "SELECT fullname, username, mobile, role, department, status FROM users WHERE role !='student'";
               }
 
               $result = mysqli_query($conn, $sql);
