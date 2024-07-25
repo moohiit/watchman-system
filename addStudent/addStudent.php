@@ -34,96 +34,21 @@ include '../database.php';
     <div class="home-content">
       <!-- Main Content Goes Here   -->
       <div class="main-content">
-        <?php
-        // Check if the user is an admin
-        if ($_SESSION['role'] !== 'admin' && $_SESSION['role'] !== 'hod') {
-          ?>
-          <div class=access-denied>
-            <?php
-            echo "<div>You do not have permission to access this page.</div>";
-            // You may also redirect to a limited access page or the login page.
-            ?>
-            <div>
-              <a style="text-decoration: none;" href="../Search/search.php">Go to Homepage</a>
-            </div>
-          </div>
-          <?php
-        } else {
-          ?>
-          <div class="form-container">
-            <form action="upload.php" class="form" method="post" enctype="multipart/form-data">
-              <h2 class="form-heading">Student Details</h2>
-              <center>
-                <h3 style="color: red;font-size: x-small;">
-                  <?php if (isset($_SESSION['status'])) {
-                    echo $_SESSION['status'];
-                    unset($_SESSION['status']);
-                  }
-                  ?>
-                </h3>
-              </center>
-              <div class="form-row">
-                <label for="name">Name</label>
-                <input type="text" name="name">
-              </div>
-              <div class="form-row">
-                <label for="email">Email</label>
-                <input type="text" name="email">
-              </div>
-              <div class="form-row">
-                <label for="dprt">Department</label>
-                <select name="dprt">
-                  <option value="select">Select Department</option>
-                  <?php
-                  $sql = "SELECT * from department";
-                  $result = mysqli_query($conn, $sql);
-                  while ($row = mysqli_fetch_assoc($result)) {
-                    ?>
-                    <option value="<?php echo $row["department"] ?>">
-                      <?php echo $row["department"] ?>
-                    </option>
-                    <?php
-                  } ?>
-                </select>
-              </div>
-              <div class="form-row">
-                <label for="year">Course Year</label>
-                <select name="year" required>
-                  <option value="First Year">First Year</option>
-                  <option value="Second Year">Second Year</option>
-                  <option value="Third Year">Third Year</option>
-                </select>
-              </div>
-              <div class="form-row">
-                <label for="mobile">Mobile No.</label>
-                <input type="text" name="mobile" id="mobile" required>
-                <small id="mobileError" style="color: red;" class="form-error"></small>
-              </div>
-              <div class="form-row">
-                <label for="batch_year">Batch Year</label>
-                <select name="batch_year" id="batch_year" required>
-                  <option value="">--Select Year--</option>
-                  <?php
-                    $currentYear = date("Y");
-                    for ($i = $currentYear - 5; $i <= $currentYear + 5; $i++) {
-                      echo "<option value='$i'>$i</option>";
-                    }
-                    ?>
-                </select>
-              </div>
-              <div class="form-row">
-                <label for="">Photo:</label>
-                <input type="file" name="image" id="image" accept="image/*" required onchange="resizeImage()">
-                <!-- Hidden input for resized image data -->
-                <input type="hidden" name="resizedImageData" id="resizedImageData">
-              </div>
-              <div class="form-row">
-                <input type="submit" value="submit" class="btn" name="submit">
-              </div>
-            </form>
-          </div>
-        <?php } ?>
-      </div>
+        <div class="heading">
+          <h1>Add Students Data</h1>
+        </div>
+        <div class="card-container">
+          <!-- Card Start here -->
+            <a class="card" href="../addStudent/addsingle.php">
+              <p class="big">Add</p>
+              <p>Single Student</p>
+            </a>
+            <a class="card" href="../addStudent/addmultiple.php">
+              <p class="big">Add</p>
+              <p>Multiple Students</p>
+            </a>        
+          <!-- Card End here -->
+        </div>
       <!-- Main Content Ends Here -->
     </div>
     <footer>

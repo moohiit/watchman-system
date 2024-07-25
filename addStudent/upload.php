@@ -63,25 +63,25 @@ if (isset($_POST["submit"])) {
       // $currentYear = date("Y");
 
       // Fetch the department code from the department table
-      $sqlDeptCode = "SELECT department_code FROM department WHERE department='$department'";
-      $resultDeptCode = mysqli_query($conn, $sqlDeptCode);
-      if ($rowDeptCode = mysqli_fetch_assoc($resultDeptCode)) {
-        $departmentCode = $rowDeptCode['department_code'];
-      } else {
-        $_SESSION['status'] = "Error: Department code not found. Update the department Code.";
-        header("Location: addStudent.php");
-        exit();
-      }
+      // $sqlDeptCode = "SELECT department_code FROM department WHERE department='$department'";
+      // $resultDeptCode = mysqli_query($conn, $sqlDeptCode);
+      // if ($rowDeptCode = mysqli_fetch_assoc($resultDeptCode)) {
+      //   $departmentCode = $rowDeptCode['department_code'];
+      // } else {
+      //   $_SESSION['status'] = "Error: Department code not found. Update the department Code.";
+      //   header("Location: addStudent.php");
+      //   exit();
+      // }
 
       // Generate the college_id
-      $sqlCount = "SELECT COUNT(*) as count FROM student WHERE department='$department' AND year='$year'";
-      $resultCount = mysqli_query($conn, $sqlCount);
-      $rowCount = mysqli_fetch_assoc($resultCount);
-      $count = $rowCount['count'] + 1;
-      $collegeId = $departmentCode . $batchYear . str_pad($count, 3, '0', STR_PAD_LEFT);
+      // $sqlCount = "SELECT COUNT(*) as count FROM student WHERE department='$department' AND year='$year'";
+      // $resultCount = mysqli_query($conn, $sqlCount);
+      // $rowCount = mysqli_fetch_assoc($resultCount);
+      // $count = $rowCount['count'] + 1;
+      // $collegeId = $departmentCode . $batchYear . str_pad($count, 3, '0', STR_PAD_LEFT);
 
       // SQL query to insert data into the "student" table
-      $sqlStudent = "INSERT INTO student (name, email, department, year, batch_year, conumber, photo_url, college_id) VALUES ('$name','$email', '$department', '$year', '$batchYear', '$mobile', '$imageUrl', '$collegeId')";
+      $sqlStudent = "INSERT INTO student (name, email, department, year, batch_year, conumber, photo_url) VALUES ('$name','$email', '$department', '$year', '$batchYear', '$mobile', '$imageUrl')";
 
       // Check if student already exists
       $check_query = "SELECT * FROM student WHERE email='$email'";

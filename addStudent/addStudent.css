@@ -1,70 +1,161 @@
 /* Add this CSS to your existing CSS file or in a separate style.css file */
+.card-container {
+  display: flex;
+  background-color: #e0ffff;
+  flex-wrap: wrap;
+  height: calc(100% - 150px);
+  width: 100%;
+  justify-content: space-evenly;
+  align-items: center;
+  padding: 20px;
+}
 
-.form-container{
-    margin-block: 20px;
+.card-container .card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 180px;
+  height: 110px;
+  font-weight: 500;
+  text-align: center;
+  border: none;
+  border-radius: 10px;
+  text-decoration: none;
+  color: #fff;
+  transition: all 0.3s;
+  margin: 10px;
+  overflow: hidden;
+}
 
+.card-container .card:hover {
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  transform: translateY(-5px);
+}
+
+.card-container .card {
+  background-color: #0c356a;
+}
+
+/* .card-container .card:nth-child(1) {
+  background: linear-gradient(to right, #8aff95 0%, rgb(19, 241, 38) 100%);
+  border: 2px solid rgb(4, 230, 4);
+}
+
+.card-container .card:nth-child(2) {
+  background: linear-gradient(to right, #88caf8 0%, #1786ee 100%);
+  border: 2px solid rgb(5, 118, 248);
+}
+
+.card-container .card:nth-child(3) {
+  background: linear-gradient(to right, rgb(253, 151, 125) 0%, rgb(243, 67, 13) 100%);
+  border: 2px solid rgb(248, 5, 5);
+}
+
+.card-container .card:nth-child(4) {
+  background: linear-gradient(to right, #fffd86 0%, rgb(229, 255, 0) 100%);
+  color: rgb(51, 133, 93);
+  border: 2px solid rgb(244, 248, 5);
+}
+.card-container .card:nth-child(5) {
+  background: linear-gradient(to right, #86ffb8 0%, rgb(0, 255, 55) 100%);
+  border: 2px solid rgb(5, 248, 236);
+} */
+
+.card-container .card a {
+  font-size: 2.5em;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.card-container .card p {
+  line-height: 2.5rem;
+  margin-bottom: 0.1rem;
+}
+
+.big{
+    font-size: x-large;
+    font-weight: 500;
+}
+.form-container {
+  margin-block: 10px;
 }
 .form {
-    max-width: 400px;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: #f7f7f7;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-    text-align: center;
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f7f7f7;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  text-align: center;
 }
 
 .form-heading {
-    font-size: 24px;
-    margin-bottom: 20px;
-    color: darkblue;
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: darkblue;
 }
 
 .form-row {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
 }
 
 .form-row label {
-    flex: 1;
-    text-align: right;
-    padding-right: 10px;
-    color:darkblue ;
+  flex: 1;
+  text-align: right;
+  padding-right: 10px;
+  color: darkblue;
 }
 
-input, textarea, select {
-    flex: 2;
-    padding: 10px;
-    width: 100%;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+input,
+textarea,
+select {
+  flex: 2;
+  padding: 10px;
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 5px;
 }
 
 .btn {
-    display: block;
-    margin: 0 auto;
-    padding: 10px 20px;
-    background-color: #343f71;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-weight: bold;
+  display: block;
+  margin: 0 auto;
+  padding: 10px 20px;
+  background-color: #343f71;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
 }
 
-.btn:hover{
-    background-color: darkblue;
-    color: #f7f7f7;
+.btn:hover {
+  background-color: darkblue;
+  color: #f7f7f7;
 }
-
 
 .nav-links .nav-link a[href*="../addStudent/addStudent.php"] {
   border: white 2px solid;
   border-radius: 5px;
 }
 
+
+.heading {
+  width: 100%;
+  background-color: #ecf3f3;
+}
+.main-content .heading h1 {
+  margin: 15px;
+  color: #607070;
+  font-size: 2rem;
+  font-weight: 400;
+  text-align: center;
+}
 /* Style the form as per your requirements */
